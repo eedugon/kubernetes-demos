@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-affinity
+spec:
+  selector:
+    matchLabels:
+      app: nginx-affinity
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-affinity
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                - gke-eedugon1-default-pool-2c32d117-6qv1
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: apps
+                operator: In
+                values:
+                - frontend
+      containers:
+      - name: nginx
+        image: nginx:1.9.1
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 200m

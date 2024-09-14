@@ -1,0 +1,42 @@
+mysql:
+  enabled: false
+  auth:
+    createDatabase: true
+    database: mydb
+    username: usuario
+    initdbScripts:
+      my_init_script.sql: |
+        use mydb;
+        create table alumnos (name varchar(255), apellidos varchar(255));
+deployment:
+  despliega: true
+affinity: false
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: kubernetes.io/hostname
+  #         operator: NotIn
+  #         values:
+  #         - gke-keepcoding-default-pool-887bbdcb-pnzx
+  #   preferredDuringSchedulingIgnoredDuringExecution:
+  #   - weight: 1
+  #     preference:
+  #       matchExpressions:
+  #       - key: apps
+  #         operator: In
+  #         values:
+  #         - frontend
+hpa:
+  enabled: false
+  pct:  20
+app:
+  imagen: eedugon/my_flask_counter:v2.0
+db:
+  imagen: mysql:latest
+podAnnotations:
+  co.elastic.metrics/enabled: "true"
+  co.elastic.metrics/module: "redis"
+  co.elastic.metrics/hosts: 'redis://${data.host}:6379'
+  co.elastic.logs/enabled: "true"
+  co.elastic.logs/module: "redis"

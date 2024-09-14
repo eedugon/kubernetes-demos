@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "devops7.fullname" . }}-app
+  labels:
+    {{- include "devops7.labels" . | nindent 4 }}
+    layer: app
+spec:
+  selector:
+    matchLabels:
+      {{- include "devops7.selectorLabels" . | nindent 6 }}
+      layer: app
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        {{- include "devops7.selectorLabels" . | nindent 8 }}
+        layer: app
+    spec:
+      volumes:
+        - name: www-volumen
+          configMap:
+            name: {{ include "devops7.fullname" . }}-cm
+      containers:
+        - name: nginx
+          image: "{{ .Values.imagen }}"
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            requests:
+              cpu: {{ .Values.cpuRequest }}
+            limits:
+              cpu: {{ .Values.cpuLimit }}
+          volumeMounts:
+            - name: www-volumen
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: index.html

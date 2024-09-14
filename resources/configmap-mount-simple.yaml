@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-mount-simple
+  namespace: default
+data:
+  config.yaml: |
+    # este es un fichero yaml de prueba
+    clave: valor
+    array:
+      - "uno"
+      - "dos"
+    otro: prueba

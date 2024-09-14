@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-configmap-mount-simple
+spec:
+  containers:
+    - name: test-container
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh","-c","cat /app/config.yaml" ]
+      volumeMounts:
+      - name: config-volume
+        mountPath: /app/config.yaml
+        subPath: config.yaml
+  volumes:
+    - name: config-volume
+      configMap:
+        name: configmap-mount-simple
+  restartPolicy: Never

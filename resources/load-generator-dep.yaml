@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-generator
+spec:
+  selector:
+    matchLabels:
+      app: load-generator
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: load-generator
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:1.28
+        command: ["sh"]
+        args: ["-c", "while true; do wget -q -O- http://nginx-hpa >dev/null 2>&1; done"]

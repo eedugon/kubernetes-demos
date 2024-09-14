@@ -1,0 +1,4 @@
+contenido: ESTA ES LA OTRA PAGINA
+service:
+  type: LoadBalancer
+ingressFQDN: "foo2.bar.com"

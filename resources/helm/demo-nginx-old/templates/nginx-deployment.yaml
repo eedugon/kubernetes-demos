@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    {{- include "demo-nginx.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "demo-nginx.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels: # LABELS DEL POD
+        {{- include "demo-nginx.selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: www-volumen
+          configMap:
+            name: {{ .Release.Name }}-cm
+      containers:
+        - name: nginx
+          image: "{{ .Values.imagen }}"
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            requests:
+              cpu: {{ .Values.cpuRequest }}
+            limits:
+              cpu: {{ .Values.cpuLimit }}
+          volumeMounts:
+            - name: www-volumen
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: index.html

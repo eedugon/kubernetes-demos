@@ -1,0 +1,26 @@
+apiVersion: apps/v1 # Version de la API (va cambiando)
+kind: Deployment  # TIPO: Deployment
+metadata: # Metadatos del Deployment
+  name: redis-monitored
+#  namespace: prueba2
+spec: # Specificacion del DEPLOYMENT
+  selector:
+    matchLabels:
+      app: redis
+  replicas: 2 # indica al controlador que ejecute 2 pods
+  template:
+    metadata: # Metadatos del POD
+      labels:
+        app: redis
+      annotations:
+        co.elastic.metrics/enabled: "true"
+        co.elastic.metrics/module: "redis"
+        co.elastic.metrics/hosts: 'redis://${data.host}:6379'
+        co.elastic.logs/enabled: "true"
+        co.elastic.logs/module: "redis"
+    spec: # Especificación del POD
+      containers: # Declaración de los contenedores del POD
+      - name: redis
+        image: redis:latest
+        ports:
+        - containerPort: 6379

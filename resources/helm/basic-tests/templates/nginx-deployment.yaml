@@ -1,0 +1,57 @@
+{{ if .Values.deployment.despliega }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "basic-tests.fullname" . }}-app
+  labels:
+    {{- include "basic-tests.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "basic-tests.selectorLabels" . | nindent 6 }}
+      componente: app
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels: # LABELS DEL POD
+        {{- include "basic-tests.selectorLabels" . | nindent 8 }}
+        componente: app
+    spec:
+      # {{- with .Values.affinity }}
+      # affinity:
+      #   {{- toYaml . | nindent 8 }}
+      # {{- end }}
+      affinity:
+       podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    {{- include "basic-tests.selectorLabelsList" . | nindent 20 }}
+                    - layer: mysql
+      volumes:
+        - name: www-volumen
+          configMap:
+            name: {{ .Release.Name }}-cm
+      containers:
+        - name: nginx
+          image: "{{ .Values.app.imagen }}"
+          env:
+            # Define the environment variable
+            - name: PASS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  # The ConfigMap containing the value you want to assign to SPECIAL_LEVEL_KEY
+                  name: {{.Release.Name}}-mysql
+                  # Specify the key associated with the value
+                  key: mysql-password
+            - name: DB_HOST
+              value: {{.Release.Name}}-mysql
+          ports:
+            - containerPort: 80
+              name: http
+{{ end }}

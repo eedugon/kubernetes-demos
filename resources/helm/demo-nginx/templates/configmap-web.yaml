@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "demo-nginx.fullname" . }}-cm
+data:
+  index.html: |
+{{ .Values.contenido | indent 4 }}

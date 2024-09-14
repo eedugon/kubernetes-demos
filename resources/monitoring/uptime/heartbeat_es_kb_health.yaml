@@ -1,0 +1,35 @@
+apiVersion: beat.k8s.elastic.co/v1beta1
+kind: Beat
+metadata:
+  name: heartbeat-simple
+  namespace: default
+spec:
+  type: heartbeat
+  version: 8.10.2
+  elasticsearchRef:
+    name: logging-and-metrics
+  config:
+    heartbeat.monitors:
+    - type: tcp
+      id: elasticsearch-k8s
+      name: Elasticsearch Logging and Metrics Cluster
+      schedule: '@every 5s'
+      hosts: ["logging-and-metrics-es-http.default.svc:9200"]
+    - type: http
+      id: elasticsearch-http-k8s
+      name: "Elasticsearch Logging and Metrics Cluster (HTTPS)"
+      schedule: '@every 5s'
+      hosts: ["https://logging-and-metrics-es-http.default.svc:9200"]
+      ssl.verification_mode: "none"
+    - type: tcp
+      id: kibana-k8s
+      name: Kibana Logging and Metrics Cluster
+      schedule: '@every 5s'
+      hosts: ["logging-and-metrics-kb-http.default.svc:5601"]
+  deployment:
+    replicas: 1
+    podTemplate:
+      spec:
+        securityContext:
+          runAsUser: 0
+---

@@ -1,0 +1,42 @@
+# del configmap
+contenido: |+
+  <h1>Web de prueba. VALOR POR DEFECTO</h1>
+  <p>Gracias por acceder</p>
+
+fullNameOverride: "minombre"
+nameOverride: "chart-fake"
+# para deployment
+
+imagen: "nginx:1.7.9"
+replicaCount: 1
+cpuRequest: "100m"
+cpuLimit: "200m"
+
+db:
+  imagen: "mysql"
+
+# Servicio
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+
+dependency-mysql:
+  enabled: false
+
+# contenido para la dependencia mysql
+mysql:
+  auth:
+    createDatabase: true
+    database: mydb
+    username: usuario
+    initdbScripts:
+      my_init_script.sql: |
+        use mydb;
+        create table alumnos (name varchar(255), apellidos varchar(255));  
+
+#annotations:
+  #  annot1: value1
+  #  annot2: value2

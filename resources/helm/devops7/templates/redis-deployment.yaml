@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "devops7.fullname" . }}-redis
+  labels:
+    {{- include "devops7.labels" . | nindent 4 }}
+    layer: redis
+spec:
+  selector:
+    matchLabels:
+      {{- include "devops7.selectorLabels" . | nindent 6 }}
+      layer: redis
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        {{- include "devops7.selectorLabels" . | nindent 8 }}
+        layer: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          resources:
+            requests:
+              cpu: {{ .Values.cpuRequest }}
+            limits:
+              cpu: {{ .Values.cpuLimit }}

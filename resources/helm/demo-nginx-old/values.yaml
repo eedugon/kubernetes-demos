@@ -1,0 +1,15 @@
+# del configmap
+contenido: |+
+  <h1>Web de prueba. VALOR POR DEFECTO</h1>
+  <p>Gracias por acceder</p>
+
+# para deployment
+replicaCount: 1
+imagen: "nginx:1.7.9"
+cpuRequest: "100m"
+cpuLimit: "200m"
+
+# Servicio
+service:
+  type: ClusterIP
+  port: 80

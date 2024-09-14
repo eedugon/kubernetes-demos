@@ -1,0 +1,23 @@
+# del configmap
+mysql.enabled: false
+ingress:
+  activo: true
+
+contenido: |+
+  <h1>Web de prueba. VALOR POR DEFECTO</h1>
+  <p>Gracias por acceder</p>
+
+ingressFQDN: "foo.bar.com"
+
+# para deployment
+replicaCount: 1
+imagen: "nginx:1.7.9"
+cpuRequest: "100m"
+cpuLimit: "200m"
+
+# Servicio
+service:
+  type: ClusterIP
+  port: 80
+redis:
+  port: 6379

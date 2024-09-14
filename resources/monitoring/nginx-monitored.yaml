@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-demo
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx-demo
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: apps/v1 # Version de la API (va cambiando)
+kind: Deployment  # TIPO: Deployment
+metadata: # Metadatos del Deployment
+  name: nginx-demo
+#  namespace: prueba2
+spec: # Specificacion del DEPLOYMENT
+  selector:
+    matchLabels:
+      app: nginx-demo
+  replicas: 1 # indica al controlador que ejecute 2 pods
+  template:
+    metadata: # Metadatos del POD
+      labels:
+        app: nginx-demo
+      annotations:
+        co.elastic.metrics/enabled: "true"
+        co.elastic.metrics/module: "nginx"
+        co.elastic.metrics/hosts: '${data.host}:80'
+        co.elastic.logs/enabled: "true"
+        co.elastic.logs/module: "nginx"
+        co.elastic.logs/fileset.stdout: access
+        co.elastic.logs/fileset.stderr: error
+        co.elastic.logs/fileset.disabled: ingress_controller
+    spec: # Especificación del POD
+      containers: # Declaración de los contenedores del POD
+      - name: httpd
+        image: nginx:latest
+        ports:
+          - containerPort: 80

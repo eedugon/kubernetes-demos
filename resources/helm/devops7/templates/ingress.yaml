@@ -1,0 +1,21 @@
+{{- if .Values.ingress.activo -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "devops7.fullname" . }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  #- host: nginx.foo.bar.com
+  - host: {{ .Values.ingressFQDN }}
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: {{ include "devops7.fullname" . }}-app
+            port:
+              number: {{ .Values.service.port }}
+{{- end }}

@@ -1,0 +1,18 @@
+GRACIAS POR INSTALAR {{ .Chart.Name }}
+GRACIAS POR INSTALAR {{ include "devops7.name" . }}
+
+Nombre de release utilizado {{ .Release.Name }}
+Demostración de helpers
+
+name: {{ include "devops7.name" . }}
+fullname: {{ include "devops7.fullname" . }}
+chart: {{ include "devops7.chart" . }}
+labels (en nueva línea e indentados)
+{{- include "devops7.labels" . | nindent 2 }}
+selectorLabels (indentados)
+{{- include "devops7.selectorLabels" . | nindent 2 }}
+
+Para más detalles puedes ejecutar:
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
+  $ kubectl get pod

@@ -1,0 +1,6 @@
+service:
+  type: "LoadBalancer"
+#service.type: "LoadBalancer"
+
+contenido: |
+  <h1>ESTA ES OTRA PAGINA</h1>

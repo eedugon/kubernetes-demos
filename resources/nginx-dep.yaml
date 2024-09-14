@@ -1,0 +1,32 @@
+#apiVersion: v1
+#kind: Namespace
+#metadata:
+#  name: prueba2
+---
+apiVersion: apps/v1 # Version de la API (va cambiando)
+kind: Deployment  # TIPO: Deployment
+metadata: # Metadatos del Deployment
+  name: nginx-deployment
+#  namespace: prueba2
+spec: # Specificacion del DEPLOYMENT
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # indica al controlador que ejecute 2 pods
+  template:
+    metadata: # Metadatos del POD
+      labels:
+        app: nginx
+    spec: # Especificación del POD
+      # nodeSelector:
+      #   app: machineLearning
+      tolerations:
+      - key: "app"
+        operator: "Equal"
+        value: "machineLearning"
+        effect: "NoExecute"
+      containers: # Declaración de los contenedores del POD
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80

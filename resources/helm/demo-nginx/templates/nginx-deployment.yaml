@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "demo-nginx.fullname" . }}-d1
+spec:
+  selector:
+    matchLabels:
+     {{- include "demo-nginx.selectorLabels" . | nindent 6 }}
+      app: nginx
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      {{- with .Values.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "demo-nginx.selectorLabels" . | nindent 8 }}
+        app: nginx
+    spec:
+      volumes:
+        - name: pagina-volume
+          configMap:
+            name: {{ include "demo-nginx.fullname" . }}-cm
+      containers:   
+      - name: nginx       
+        image: {{ .Values.imagen }}
+        env:
+        - name: DB_HOST
+          value: "{{.Release.Name}}-mysql"
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: {{ .Values.cpuLimit }}
+          requests:
+            cpu: {{ .Values.cpuRequest }}
+        volumeMounts:
+        - name: pagina-volume
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: apm-server-temp
+  namespace: default
+spec:
+  ports:
+  - name: https
+    port: 8200
+    protocol: TCP
+    targetPort: 8200
+  selector:
+    apm.k8s.elastic.co/name: apm-server-quickstart
+    common.k8s.elastic.co/type: apm-server
+  type: LoadBalancer
