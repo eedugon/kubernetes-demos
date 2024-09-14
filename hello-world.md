@@ -43,9 +43,11 @@ kubectl expose deployment hello-world --type=NodePort --port=80
 
 This (`NodePort`) exposes the created deployment in all Kubernetes workers on a very high random port (the port `80` of the previous command describes the internal port), like `30768`.
 
+Exposing an application in Kubernetes, whether internally or externally, is done through a `Kubernetes Service`.
+
 ## Obtain the URL
 
-In a real cluster we would just need to access any worker IP address on the selected port, but as our Kubernetes worker (minikube) is running as a docker, we cannot access it directly from our laptop. In order to create a tunnel to the service:
+In a real cluster, when creating a `NodePort` service, we would just need to access any worker IP address on the selected port, but as our Kubernetes worker (minikube) is running as a docker, we cannot access it directly from our laptop. But Minikube allows us to create a tunnel to access the service:
 
 
 ```bash
@@ -58,20 +60,20 @@ The previous returns something like:
 |-----------|-------------|-------------|---------------------------|
 | NAMESPACE |    NAME     | TARGET PORT |            URL            |
 |-----------|-------------|-------------|---------------------------|
-| default   | hello-world |          80 | http://192.168.49.2:30768 | # That's the IP address of the docker, which would be theoretically our entry point.
+| default   | hello-world |          80 | http://192.168.49.2:30768 | # That's the IP address of the worker (docker)
 |-----------|-------------|-------------|---------------------------|
 🏃  Starting tunnel for service hello-world.
 |-----------|-------------|-------------|------------------------|
 | NAMESPACE |    NAME     | TARGET PORT |          URL           |
 |-----------|-------------|-------------|------------------------|
-| default   | hello-world |             | http://127.0.0.1:52821 |
+| default   | hello-world |             | http://127.0.0.1:52821 | # Tunnel created by Minikube
 |-----------|-------------|-------------|------------------------|
 🎉  Opening service default/hello-world in default browser...
 ❗  Because you are using a Docker driver on darwin, the terminal needs to be open to run it.
 ```
 
 __NOTES:__
-- Accessing services from Minikube is not straight forward as it is in real Kubernetes clusters, it requires an extra tunnel to be created by Minikube (the same can be appled to `LoadBalancer` services).
+- Accessing services from Minikube is not as straight forward as it is in real Kubernetes clusters, it requires an extra tunnel to be created by Minikube (the same can be appled to `LoadBalancer` services on Minikube).
 
 # GKE Hello-world
 
@@ -93,7 +95,7 @@ kubectl config get-contexts # check the current context
 kctx # with the plugin and alias
 ```
 
-- Create and expose the deployment (this time as a `LoadBalancer`):
+- Create and expose the deployment (this time as a `LoadBalancer`, so we can see some cloud "magic" in place):
 
 ```bash
 kubectl create deployment hello-world --image=nginx --replicas=2
