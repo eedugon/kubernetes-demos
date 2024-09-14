@@ -18,7 +18,7 @@ affinity: false
   #       - key: kubernetes.io/hostname
   #         operator: NotIn
   #         values:
-  #         - gke-keepcoding-default-pool-887bbdcb-pnzx
+  #         - gke-demo-default-pool-887bbdcb-pnzx
   #   preferredDuringSchedulingIgnoredDuringExecution:
   #   - weight: 1
   #     preference:

@@ -217,9 +217,9 @@ Once you ensure traffic is allowed, simply connect from your browser (or shell v
 ```
 $ kubectl get nodes -o=wide
 NAME                                        STATUS   ROLES    AGE   VERSION            INTERNAL-IP   EXTERNAL-IP     OS-IMAGE                             KERNEL-VERSION   CONTAINER-RUNTIME
-gke-keepcoding-default-pool-5a194f9d-nprx   Ready    <none>   18m   v1.21.6-gke.1500   10.138.0.2    35.230.29.12    Container-Optimized OS from Google   5.4.144+         containerd://1.4.8
-gke-keepcoding-default-pool-5a194f9d-phgm   Ready    <none>   18m   v1.21.6-gke.1500   10.138.0.4    34.82.250.102   Container-Optimized OS from Google   5.4.144+         containerd://1.4.8
-gke-keepcoding-default-pool-5a194f9d-w0r2   Ready    <none>   18m   v1.21.6-gke.1500   10.138.0.3    35.247.71.42    Container-Optimized OS from Google   5.4.144+         containerd://1.4.8
+gke-demo-default-pool-5a194f9d-nprx   Ready    <none>   18m   v1.21.6-gke.1500   10.138.0.2    35.230.29.12    Container-Optimized OS from Google   5.4.144+         containerd://1.4.8
+gke-demo-default-pool-5a194f9d-phgm   Ready    <none>   18m   v1.21.6-gke.1500   10.138.0.4    34.82.250.102   Container-Optimized OS from Google   5.4.144+         containerd://1.4.8
+gke-demo-default-pool-5a194f9d-w0r2   Ready    <none>   18m   v1.21.6-gke.1500   10.138.0.3    35.247.71.42    Container-Optimized OS from Google   5.4.144+         containerd://1.4.8
 ```
 
 In this example, the accessible addresses are listed in the `EXTERNAL-IP` column. We check that all of them allow traffic and work (__regardless of whether they have a pod running on the node or not__):

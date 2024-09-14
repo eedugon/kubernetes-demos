@@ -184,7 +184,7 @@ Events:
   Type     Reason            Age                From                Message
   ----     ------            ----               ----                -------
   Warning  FailedScheduling  37s (x2 over 38s)  default-scheduler   0/3 nodes are available: 3 Insufficient cpu.
-  Normal   TriggeredScaleUp  35s                cluster-autoscaler  pod triggered scale-up: [{https://www.googleapis.com/compute/v1/projects/chrome-plateau-338520/zones/us-west1-a/instanceGroups/gke-keepcoding-default-pool-887bbdcb-grp 3->6 (max: 6)}]
+  Normal   TriggeredScaleUp  35s                cluster-autoscaler  pod triggered scale-up: [{https://www.googleapis.com/compute/v1/projects/chrome-plateau-338520/zones/us-west1-a/instanceGroups/gke-demo-default-pool-887bbdcb-grp 3->6 (max: 6)}]
 ```
 
 ## End

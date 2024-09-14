@@ -73,7 +73,7 @@ Once the pod is created, the pod's description (`kubectl describe`) should retur
 Events:
   Type    Reason                  Age   From                     Message
   ----    ------                  ----  ----                     -------
-  Normal  Scheduled               9s    default-scheduler        Successfully assigned default/volume-pd-test to gke-keepcoding-default-pool-7b2ab140-b7vr
+  Normal  Scheduled               9s    default-scheduler        Successfully assigned default/volume-pd-test to gke-demo-default-pool-7b2ab140-b7vr
   Normal  SuccessfulAttachVolume  5s    attachdetach-controller  AttachVolume.Attach succeeded for volume "test-volume"
   ...
   ...

@@ -163,7 +163,7 @@ $ kubectl get pod memory-demo-high -o=yaml
 Also, checking the node where the pod is running (`kubectl get pod -o=wide`) and running a `describe` on it might provide additional insights:
 
 ```
-kubectl describe node gke-keepcoding-default-pool-7b2ab140-b7vr
+kubectl describe node gke-demo-default-pool-7b2ab140-b7vr
 
 Events:
   Type     Reason      Age                  From            Message

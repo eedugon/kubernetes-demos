@@ -48,7 +48,7 @@ Helpers are useful because they process/validate/truncate data to ensure it is c
 The __default helpers__ we can use are:
 
 - `fullname`: `{{ include "demo-nginx.fullname" . }}` --> the full name will be the release name + the chart.
-- `labels` and `selectorLabels`: `{{- include "keepcoding-nginx.selectorLabels" . | nindent 2 }}` --> Very useful as it will create unique labels by default, so we don't have to worry about them.
+- `labels` and `selectorLabels`: `{{- include "demo-nginx.selectorLabels" . | nindent 2 }}` --> Very useful as it will create unique labels by default, so we don't have to worry about them.
 
 `Fullname` is very useful because it helps create unique resource names.
 

@@ -54,7 +54,7 @@ Events:
 To fix this, we can add the label to one of the nodes:
 
 ```
-kubectl label node gke-keepcoding-default-pool-5a194f9d-phgm disktype=ssd
+kubectl label node gke-demo-default-pool-5a194f9d-phgm disktype=ssd
 ```
 
 Once the label is added, the pod will start on the corresponding node.
@@ -98,7 +98,7 @@ spec:
               - key: kubernetes.io/hostname
                 operator: NotIn
                 values:
-                - gke-keepcoding-default-pool-f89b3810-51h7
+                - gke-demo-default-pool-f89b3810-51h7
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 1
             preference:
