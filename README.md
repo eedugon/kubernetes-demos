@@ -10,38 +10,35 @@ __Pods functionality__
 * [Liveness & Readiness probes](./probes.md)
 * [ConfigMaps](./configmaps.md)
 * [Secrets](./secrets.md)
-* [CPU y Memoria](./resources.md)
+* [CPU and Memory](./resources.md)
 * [Scheduling](./scheduling.md)
-* [Autoescalado](./autoscaling.md)
+* [Kubernetes Autoscaling](./autoscaling.md)
 
-__Services__
+__Kubernetes Services__
 
-* [Servicios](./servicios.md)
+* [Kubernetes Services](./services.md)
 * [Ingress & Ingress Controllers](./ingress.md)
 
 __Storage__
-* [Volúmenes](./volumes.md)
+* [Pod Volumes](./volumes.md)
 
 __Workloads__
 
 * [Deployments](./deployments.md)
 * [DaemonSets](./daemonsets.md)
-* [StatefulSets, PVs y PVCs](./statefulsets.md)
-* [Jobs y CronJobs](./jobs.md)
+* [StatefulSets, PVs and PVCs](./statefulsets.md)
+* [Jobs and CronJobs](./jobs.md)
 
 __Helm Charts__
 
-* [Creación Helm Chart](./helm.md)
+* [Helm Chart creation](./helm.md)
 
 __Operadores y Monitorización__
 
-* [Demostración Operadores](./operators.md)
-* [Prometheus y Grafana](./prometheus.md)
-* [Instrumentación de aplicaciones (APM)](./apm.md)
+* [Kubernetes Operators and Observability example](./operators.md)
+* [Prometheus and Grafana](./prometheus.md)
+* [Application Performance Management (APM)](./apm.md)
 
 __Security__
 
-* [Acceso a la API desde pods](./api-access.md)
-
-### End
-[Back to main README](../../README.md)
+* [API access from Pods](./api-access.md)
