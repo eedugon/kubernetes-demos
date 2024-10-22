@@ -53,7 +53,7 @@ kubectl get pod
 kubectl logs nginx-deployment-xxxxxx (# el nombre de uno de los pods )
 ```
 
-Next, we will create the service, which will be defined similarly to:
+Next, we will create the service, with something like:
 
 ```yaml
 apiVersion: v1
@@ -73,8 +73,8 @@ spec:
 __IMPORTANT CONSIDERATIONS__
 
 * Selector: it is a selector for __pods only__. It must target the labels of pods, not those of Deployments, Statefulsets, etc.
-* Ports: the listening port can be chosen freely, but the `targetPort` must match exactly the one the target pods are listening on.
-* A service can have multiple ports (a pod can also listen on multiple ports).
+* Ports: the listening port can be chosen freely, but the `targetPort` must match exactly the port where the target pods are listening on.
+  * A service can have multiple ports (a pod can also listen on multiple ports).
 * Name: the service name will become the DNS name that internal clients use.
 
 <a name="svc-clusterip"></a>
@@ -127,37 +127,8 @@ $ curl nginx
 ...
 ```
 
-__Testing access to ClusterIP service__
-
-Since the ClusterIP service is only accessible from within the cluster, we will create a test `client pod`. Possible images include (busybox:1.28, radial/busyboxplus:curl, etc.).
-
-```
-kubectl run curl-test -it --image=radial/busyboxplus:curl --rm
-```
-
-Once inside, we can check the DNS resolution and connection to the service:
-
-```console
-$ nslookup nginx
-Server:    10.56.0.10
-Address 1: 10.56.0.10 kube-dns.kube-system.svc.cluster.local
-
-Name:      nginx
-Address 1: 10.56.9.59 nginx.default.svc.cluster.local
-
-$ curl nginx
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-    body {
-        width: 35em;
-        margin: 0 auto;
-        font-family: Tahoma, Verdana, Arial, sans-serif;
-    }
-...
-```
+- DNS records for services follow `<service-name>.<namespace>.svc.cluster.local`.
+- DNS clients will try to append various suffixes when not provided.
 
 __Checking NAT (SNAT / DNAT) and traffic flow__
 
@@ -210,6 +181,7 @@ For example, in GKE:
 gcloud compute firewall-rules create test-node-port --allow tcp:31706
 
 # WARNING!!! The above command opens that port for all machines in the VPC!!!
+# --target-tags=gke-eedugon1-<hash> might help :)
 ```
 
 Once you ensure traffic is allowed, simply connect from your browser (or shell via curl) to the destination. You will need to know the actual IP addresses of your nodes. One way to get them is:
@@ -277,6 +249,11 @@ NGINX logs, similar to previous ones:
 10.52.0.1 - - [05/Feb/2022:09:34:59 +0000] "GET / HTTP/1.1" 200 612 "-" "curl/7.79.1" "-"
 ```
 
+In other cases the source IP could also be translated to the IP address of the load balancer, it depends on the implementation.
+
+Advanced topic:
+- `externalTrafficPolicy: Local` will preserve the original IP (if not translated by the load balancer). Default value is `Cluster`.
+
 ### HeadLess
 <a name="svc-headless"></a>
 
@@ -328,6 +305,8 @@ Address 2: 10.52.2.3
 $ curl 10.52.0.4
 $ curl 10.52.2.3
 ```
+
+Resolution hint: `<svc-name>[.<namespace>.svc.cluster.local]`
 
 In this case, __the communication is direct between pods, without kube-proxy involvement__. There is also no NAT applied (neither `DNAT` nor `SNAT`).
 
