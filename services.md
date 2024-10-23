@@ -50,7 +50,7 @@ Once created, we can verify that it is running and check the logs of the associa
 
 ```bash
 kubectl get pod
-kubectl logs nginx-deployment-xxxxxx (# el nombre de uno de los pods )
+kubectl logs nginx-deployment-xxxxxx # the name of one of the pods
 ```
 
 Next, we will create the service, with something like:
