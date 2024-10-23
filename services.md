@@ -127,8 +127,8 @@ $ curl nginx
 ...
 ```
 
-- DNS records for services follow `<service-name>.<namespace>.svc.cluster.local`.
-- DNS clients will try to append various suffixes when not provided.
+- DNS records for services follow `<service-name>.<namespace>.svc.cluster.local` nomenclature.
+- DNS clients will try to append various suffixes when not provided (search domains).
 
 __Checking NAT (SNAT / DNAT) and traffic flow__
 
