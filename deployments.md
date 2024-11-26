@@ -85,6 +85,7 @@ nginx-deployment-5d59d67564-sfjvw   1/1     Running   0             4m5s    app=
 ```
 
 <a name="updates"></a>
+
 ### Updating Deployments
 
 - Suppose we want to update the image to `nginx:1.9.1`. We can:
@@ -113,20 +114,26 @@ You can also verify the changes' status in a simpler way using:
   - `kubectl get deployment`
   - `kubectl get pod`
 
-- Reverting changes:
+### Reverting changes:
 
 Suppose we make a mistake.
 
-Check deployment rollout history:
-`kubectl rollout history deployment.v1.apps/nginx-deployment`
+- Check deployment rollout history:
 
-kubectl rollout history deployment.v1.apps/nginx-deployment --revision=2
+```bash
+kubectl rollout history deployment/nginx-deployment
+kubectl rollout history deployment/nginx-deployment --revision=2
+```
 
-kubectl rollout undo deployment.v1.apps/nginx-deployment
+- Perform the rollback with any of:
 
-kubectl rollout undo deployment.v1.apps/nginx-deployment --to-revision=2
+```bash
+kubectl rollout undo deployment/nginx-deployment
+kubectl rollout undo deployment/nginx-deployment --to-revision=2
+```
 
 <a name="scale"></a>
+
 ### Scaling Deployments
 
 Scaling (and downscaling) involves changing the number of replicas.
@@ -134,37 +141,40 @@ Scaling (and downscaling) involves changing the number of replicas.
 - Scale a deployment:
 
   - Basic:
-  ```
-  kubectl scale deployment.v1.apps/nginx-deployment --replicas=10
+
+  ```bash
+  kubectl scale deployment/nginx-deployment --replicas=10
   ```
 
   - If autoscaling is enabled in the cluster:
   ```
-  kubectl autoscale deployment.v1.apps/nginx-deployment --min=10 --max=15 --cpu-percent=80
+  kubectl autoscale deployment/nginx-deployment --min=10 --max=15 --cpu-percent=80
   ```
 
 <a name="pause"></a>
+
 ### Pausing / stopping rolling updates
 
-- Pausing rollouts: This tells the system to temporarily `not apply configuration changes`. This allows you to make multiple changes at once, for example:
+- Pausing rollouts: This tells the system to temporarily `stop applying configuration changes`. This allows you to make multiple changes at once. The procedure consist of:
 
-1) Pause the deployment: `kubectl rollout pause deployment.v1.apps/nginx-deployment`
-2) Make multiple changes. After each change, you will see that nothing is applied immediately:
+1. Pause the deployment: `kubectl rollout pause deployment.v1.apps/nginx-deployment`
 
-```
+2. Make multiple changes. After each change, you will see that nothing is applied immediately:
+
+```bash
 kubectl set image deployment.v1.apps/nginx-deployment nginx=nginx:1.9.1
 kubectl set resources deployment.v1.apps/nginx-deployment -c=nginx --limits=cpu=200m,memory=512Mi
 ```
 
 You will notice that `rollout history` does not show the change, and `rollout status` shows a message like:
-```
-Waiting for deployment "nginx-deployment" rollout to finish: 0 out of 10 new replicas have been updated...
-```
+
+> Waiting for deployment "nginx-deployment" rollout to finish: 0 out of 10 new replicas have been updated...
 
 3) Resume the deployment rollout: `kubectl rollout resume deployment.v1.apps/nginx-deployment`
 
-Check that the changes are applied:
-```
+Check that changes are applied:
+
+```bash
 kubectl get deployment
 kubectl get pod -w
 kubectl rollout status deployment nginx-deployment
@@ -173,6 +183,7 @@ kubectl rollout status deployment nginx-deployment
 __Troubleshooting__
 
 If the process gets stuck, always check:
+
 - Status of the pods and the deployment.
 - Describe the components that are not in the correct state.
 - Pod logs if the pods are failing for some reason.
