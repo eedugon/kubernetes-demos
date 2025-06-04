@@ -45,7 +45,7 @@ CMD kubectl get po
 We build the image and push it to DockerHub:
 
 ```bash
-docker build -t eedugon/internal-kubectl:latest
+docker build --platform linux/amd64 -t eedugon/internal-kubectl:latest .
 docker push eedugon/internal-kubectl:latest
 ```
 
@@ -97,8 +97,8 @@ ping kubernetes
 curl kubernetes
 curl https://kubernetes
 curl --cacert ca.crt https://kubernetes:443
-curl --cacert ca.crt https://kubernetes:443 --header "Authorization: Bearer $(cat token)" https://kubernetes:443
-curl --cacert ca.crt https://kubernetes:443 --header "Authorization: Bearer $(cat token)" https://kubernetes:443/api
+curl --cacert ca.crt --header "Authorization: Bearer $(cat token)" https://kubernetes:443
+curl --cacert ca.crt --header "Authorization: Bearer $(cat token)" https://kubernetes:443/api
 
 # Bingo, it works and we have access. Now let's see if we can get the pods...
 curl --cacert ca.crt --header "Authorization: Bearer $(cat token)" https://kubernetes:443/api/v1/pods

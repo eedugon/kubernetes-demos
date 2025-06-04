@@ -20,7 +20,7 @@ spec:
               - key: kubernetes.io/hostname
                 operator: NotIn
                 values:
-                - gke-eedugon1-default-pool-2c32d117-6qv1
+                - gke-eedugon2-default-pool-85646a93-u132
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 1
             preference:

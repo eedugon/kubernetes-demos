@@ -15,8 +15,13 @@ spec: # Deployment SPEC
       labels: # Pod labels
         app: nginx
     spec: # Pod Spec starts here
+      tolerations:
+        - key: "area"
+          operator: "Equal"
+          value: "monitoring"
+          effect: "NoSchedule"
       containers: # Containers of the Pod
       - name: nginx
-        image: nginx:1.7.9
+        image: nginx:1.9.1
         ports:
         - containerPort: 80

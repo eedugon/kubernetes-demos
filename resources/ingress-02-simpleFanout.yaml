@@ -13,21 +13,21 @@ spec:
     http:
       paths:
       - path: /apple(/|$)(.*)
-        pathType: Prefix
+        pathType: ImplementationSpecific
         backend:
           service:
             name: apple-service
             port:
               number: 5678
       - path: /banana(/|$)(.*)
-        pathType: Prefix
+        pathType: ImplementationSpecific
         backend:
           service:
             name: banana-service
             port:
               number: 5678
       - path: /nginx(/|$)(.*)
-        pathType: Prefix
+        pathType: ImplementationSpecific
         backend:
           service:
             name: nginx

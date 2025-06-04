@@ -11,10 +11,10 @@ spec:
   ingressClassName: nginx  
   tls: # < placing a host in the TLS config will determine what ends up in the cert's subjectAltNames
   - hosts:
-    - nginx.34.78.182.208.nip.io
+    - nginx.130.211.102.3.nip.io
     secretName: nginx-ingress-ssl-cert # < cert-manager will store the created certificate in this secret.
   rules:
-  - host: nginx.34.78.182.208.nip.io
+  - host: nginx.130.211.102.3.nip.io
     http:
       paths:
       - pathType: Prefix
