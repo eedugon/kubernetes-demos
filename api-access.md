@@ -237,4 +237,4 @@ This doesn't mean the service account doesn't have permissions, but rather that 
 
 ## Extras / Suggestions
 
-- Use one of the Kubernetes API interaction libraries. More [here](https://kubernetes.io/docs/tasks/run-application/access-api-from-pod/#using-official-client-libraries) and [here](https://kubernetes
+- Use one of the Kubernetes API interaction libraries. More [here](https://kubernetes.io/docs/tasks/run-application/access-api-from-pod/#using-official-client-libraries).
